@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-     public function createCategory(Request $request)
-    { $validated = $request->validate([
+     public function createCategory(Request $request){
+         $validated = $request->validate([
             'name' => 'required|string|unique:categories,name',
             'description' => 'nullable|string',
         ]);
 
-        $category = new Category()
+        $category = new Category();
         $category->name = $validated['name'];
         $category->description = $validated['description'];
         
@@ -26,19 +27,19 @@ class CategoryController extends Controller
 
         
     }
-}
-    public function readAllCategories()[
+
+    public function readAllCategories(){
         try
         {
             $categories = Category::all();
             return response()->json($categories);
         } catch (\Exception $exception) {
             return response()->json([
-                'error'=>'Failed to fetch Categories.'
+                'error'=>'Failed to fetch Categories.',
                 'message'=>$exception->getMessage()
-            ));
+            ], 500);
         }
-    
+    }
         public function readCategory($id){
         try
         {
@@ -46,12 +47,12 @@ class CategoryController extends Controller
             return response()->json($category);
         } catch (\Exception $exception) {
             return response()->json([
-                'error'=>'Failed to fetch the Category.'
+                'error'=>'Failed to fetch the Category.',
                 'message'=>$exception->getMessage()
-            ));
+            ], 500);
         }
     }
-    public function updateCategory(Request $request, id){
+    public function updateCategory(Request $request, $id){
         $validated = $request->validate([
             'name' => 'required|string|unique:categories,name,'.$id,
             'description' => 'nullable|string',

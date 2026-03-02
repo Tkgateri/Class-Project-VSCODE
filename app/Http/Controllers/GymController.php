@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gym; 
+
 use Illuminate\Http\Request;
 
 class GymController extends Controller
@@ -28,7 +30,7 @@ class GymController extends Controller
             return response()->json(['message' => 'Failed to create gym', 'error' => $e->getMessage()], 500);
         }      
     }
-}
+
 
     public function readAllGyms(){
         try
@@ -39,8 +41,9 @@ class GymController extends Controller
             return response()->json([
                 'error'=>'Failed to fetch Gyms.',
                 'message'=>$exception->getMessage()
-            ));
+            ], 500);
         }
+    }
     public function readGym($id){
         try
         {
@@ -48,12 +51,12 @@ class GymController extends Controller
             return response()->json($gym);
         } catch (\Exception $exception) {
             return response()->json([
-                'error'=>'Failed to fetch the Gym.'
+                'error'=>'Failed to fetch the Gym.',
                 'message'=>$exception->getMessage()
-            ));
+            ], 500);
         }
     }
-    public function updateGym(Request $request, id){
+    public function updateGym(Request $request, $id){
         $validated = $request->validate([
             'name' => 'required|string|unique:gyms,name,'.$id,
             'description' => 'nullable|string',

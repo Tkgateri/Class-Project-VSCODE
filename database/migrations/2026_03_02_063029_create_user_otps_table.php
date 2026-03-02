@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -11,13 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bundles', function (Blueprint $table) {
+        Schema::create('user_otps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->timestamp('start_time');
-            $table->integer('duration');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->string('description', 1000)->nullable();
+            $table->string('otp');
+            $table->timestamp('expires_at');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');     
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bundles');
+        Schema::dropIfExists('user_otps');
     }
 };

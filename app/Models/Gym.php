@@ -11,5 +11,6 @@ class Gym extends Model
         'longitude',
         'latitude',
         'description',
+        
     ];
 }
