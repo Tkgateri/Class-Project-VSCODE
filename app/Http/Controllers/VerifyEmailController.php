@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Response;
 use App\Notifications\VerifyEmailNotification;
 
-class VerifyemailController extends Controller
+class VerifyEmailController extends Controller
 {
     public function verify(Request $request, $id, $hash)
     {$user = User::where('id', $id);
